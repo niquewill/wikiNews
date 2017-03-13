@@ -1,0 +1,79 @@
+*{
+    font-family: 'Future', 'Trebuchet MS', serif;
+}
+
+body{
+    background-color: #16226C;
+
+}
+
+button{
+    border: #4F2A00;
+    color: #BEAB24;
+    border-style:
+    border-width: 5px;
+}
+h1 {
+    font-weight: bolder;
+    text-align: center;
+    color: #4F4500;
+    font-size: 100px;
+    text-shadow: #D9C84B 0 0 10px;
+}
+#wrapper{
+    width:1000px;
+    margin: 0 auto;
+    padding-top: 5%;
+}
+#articles{
+    background-color: #EBE0E0;
+    width:60%;
+    height:700px;
+    display:inline-block;
+    overflow: auto;
+    padding: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #BEAB24;
+}
+
+#notes{
+    width:35%;
+    float:right;
+}
+textarea, input{
+    display:block;
+    width:100%;
+}
+input{
+    height:36px;
+    font-size: 24px;
+}
+textarea{
+    height:200px;
+    font-size: 18px;
+}
+.articleblock {
+    border-bottom: 1px solid #472600;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.articleblock:last-child {
+    border-bottom: none;
+    padding: 0px;
+}
+
+#savenote, #deletenote {
+    background-color: #472600;
+    color: #FFF4AF;
+    border: black 1px solid;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+}
+
+#savenote:hover, #deletenote:hover {
+    background-color: #472600;
+    color: #8D96CC;
+}
