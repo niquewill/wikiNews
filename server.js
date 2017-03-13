@@ -20,7 +20,8 @@ app.use(bodyParser.urlencoded({
 
 //mongoose
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://heroku_70f85ms8:1an1qbou71vtnakpon11g0n809@ds129260.mlab.com:29260/heroku_70f85ms8');
+mongoose.connect('mongodb://heroku_70f85ms8:1an1qbou71vtnakpon11g0n809@ds129260.mlab.com:29260/heroku_70f85ms8' || 'mongodb://purplehost/wikiNews');
+
 var db = mongoose.connection;
 
 // show any mongoose errors
@@ -35,11 +36,12 @@ db.once('open', function() {
 
 //models
 var Note = require('./models/note.js');
-var Nyt = require('./models/wikinews.js');
+var wikinews = require('./models/wikinews.js');
 
 
 // Routes
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+app.use(methodOverride("_method"));
 var exphbs  = require('express-handlebars');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
@@ -48,7 +50,7 @@ app.set('view engine', 'handlebars');
 app.get('/', function (req, res) {
     res.render('home');
 });
-
+//Scrape wikinew N.A. ONLY
 app.get('/scrape', function(req, res) {
 	var weburl = 'https://en.wikinews.org/wiki/Category:North_America';
 	request(weburl, function(error, response, html) {
@@ -75,12 +77,14 @@ app.get('/scrape', function(req, res) {
 	    });
 
 	    for (i=0; i<headline.length; i++){
-	    	var news = {};
+//Define news for title, summary, byline, date
+            var news = {};
 			news.title = headline[i];
 			news.summary = summary[i];
 			news.byline = byline[i];
 			news.date = date[i];
-			var search = new wikinews (result);
+//Search
+            var search = new wikinews (result);
 
 			search.save(function(err, doc) {
 			  if (err) {
@@ -94,7 +98,7 @@ app.get('/scrape', function(req, res) {
 	});
   res.send("Scrape Complete");
 });
-
+//GET News
 app.get('/wikinews', function(req, res){
 	wikinews.find({}, function(err, doc){
 		if (err){
@@ -105,7 +109,7 @@ app.get('/wikinews', function(req, res){
 		}
 	});
 });
-
+//GET id
 app.get('/wikinews/:id', function(req, res){
 	wikinews.findOne({'_id': req.params.id})
 	.populate('note')
@@ -118,10 +122,10 @@ app.get('/wikinews/:id', function(req, res){
 		}
 	});
 });
-
+//POST
 app.post('/wikinews/:id', function(req, res){
-	var newNote = new Note(req.body);
-	newNote.save(function(err, doc){
+	var newnote = new note(req.body);
+	newnoteote.save(function(err, doc){
 		if(err){
 			console.log(err);
 		} 
@@ -137,7 +141,7 @@ app.post('/wikinews/:id', function(req, res){
 		}
 	});
 });
-
+//Port
 app.listen(3000, function() {
   console.log('App running on port 3000!');
 });

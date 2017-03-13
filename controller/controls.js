@@ -1,3 +1,4 @@
+var db = require("../server.js");
 var request = require("request");
 var cheerio = require("cheerio");
 var mongoose = require("mongoose");
@@ -41,7 +42,7 @@ var controller = {
                                                 // });
 
                                                 wikinews.find({})
-                                                    // ..and populate all of the notes associated with it
+                                                    // ..and populate all of the notes similiar with it
                                                     .populate("note")
                                                     // now, execute our query
                                                     .exec(function (error, doc) {
@@ -64,12 +65,12 @@ var controller = {
 
                                             },
 
-                                            associateNote: function (req, res) {
+                                            matchingNote: function (req, res) {
                                                 // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
                                                 wikinews.findOne({
                                                         "_id": req.params.id
                                                     })
-                                                    // ..and populate all of the notes associated with it
+                                                    // ..and populate all of the notes similiar with it
                                                     .populate("note")
                                                     // now, execute our query
                                                     .exec(function (error, doc) {
@@ -84,7 +85,7 @@ var controller = {
                                                     });
 
                                             },
-
+//create add note function
                                             addNote: function (req, res) {
                                                 console.log("inside add note");
                                                 console.log(req.body);
@@ -121,7 +122,7 @@ var controller = {
                                                 });
 
                                             },
-
+//create delete note function
                                             deleteNote: function (req, res) {
                                                 console.log("remove");
                                                 console.log(req.body.noteId)
@@ -137,7 +138,7 @@ var controller = {
 
 
                                             },
-
+//create save article function
                                             saveArticle: function (req, res) {
                                                 console.log("inside save")
                                                 var search = new wikinews(req.body);
@@ -173,7 +174,7 @@ var controller = {
                                                     }
                                                 });
                                             },
-
+//create delete article function
                                             deleteArticle: function (req, res) {
                                                 console.log("remove");
                                                 wikinews.remove({
